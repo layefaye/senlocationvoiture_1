@@ -27,9 +27,13 @@ public class Utilisateur {
   @Column(name = "Uti_Adresse")
   private String adresse;
   @Column(name = "Uti_Email", nullable = false, unique = true, length = 50)
-  @Email
   private String email;
-  @OneToOne(cascade = CascadeType.PERSIST)
+  @ManyToOne(cascade = CascadeType.PERSIST)
           @JoinColumn(name = "Uti_compte")
   Compte compte;
+
+  @Column(name = "Uti_deleted")
+  private boolean deleted = false;
+  @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+  private StatutUtilisateur statutUtilisateur;
 }

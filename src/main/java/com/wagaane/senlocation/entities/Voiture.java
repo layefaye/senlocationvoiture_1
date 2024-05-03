@@ -58,4 +58,7 @@ public class Voiture {
 
   @OneToMany
   private List<File> images;
+
+  @Column(name = "Voiture_deleted")
+  private boolean deleted = false;
 }

@@ -1,21 +1,18 @@
-package com.wagaane.senlocation.auth;
+package com.wagaane.senlocation.web.dtos.responses;
 
-import com.wagaane.senlocation.entities.enums.Role;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
+public class UtilisateurResponse {
+  private Long id;
   private String nom;
   private String prenom;
+  private String email;
   private String telephone;
   private String adresse;
-  private String email;
-  private String password;
-  private Role role;
 }

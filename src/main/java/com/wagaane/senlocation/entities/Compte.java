@@ -1,5 +1,6 @@
 package com.wagaane.senlocation.entities;
 
+import com.wagaane.senlocation.entities.enums.Role;
 import com.wagaane.senlocation.security.token.Token;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

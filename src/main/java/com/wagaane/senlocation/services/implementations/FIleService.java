@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,15 +30,30 @@ public class FIleService implements IFile {
   private String upaloadCarImages;
   private final VoitureRepository voitureRepository;
   private final FileRepository fileRepository;
+  private static final List<String> allowedImageTypes = Arrays.asList("image/jpeg", "image/png", "image/gpeg");
+
+
+  public static boolean isImage(MultipartFile file) {
+    return file != null && !file.isEmpty() && allowedImageTypes.contains(file.getContentType());
+  }
+
   @Override
-  public ResponseEntity<Response<Object>> uploadFile(List<MultipartFile> files, long id, String type) {
+  public Response<Object> uploadFile(List<MultipartFile> files, long id, String type) {
+    // verifier si l'image est valide
+    for (MultipartFile file : files) {
+      if (!isImage(file)) {
+        Response.exception().setMessage("Seule les images sont acceptees.");
+      }
+    }
+
+
     for (MultipartFile file : files) {
       try {
         switch (type){
             case "images_car":
               Optional<Voiture> optionalVoiture = voitureRepository.findById(id);
               if (optionalVoiture.isEmpty()) {
-                return ResponseEntity.ok(Response.exception().setMessage("Utilisateur inexistant !"));
+                return Response.exception().setMessage("Utilisateur inexistant !");
               }
 
               Voiture  voiture =  optionalVoiture.get();
@@ -63,6 +79,6 @@ public class FIleService implements IFile {
         throw new RuntimeException("Une erreur s'est produite lors de l'enregistrement de l'image", e);
       }
     }
-    return ResponseEntity.ok(Response.ok().setPayload("Fichier enregistre avec succes."));
+    return Response.ok().setPayload("Fichier enregistre avec succes.");
   }
 }

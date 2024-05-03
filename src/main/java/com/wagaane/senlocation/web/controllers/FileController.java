@@ -2,6 +2,7 @@ package com.wagaane.senlocation.web.controllers;
 
 import com.wagaane.senlocation.services.interfaces.IFile;
 import com.wagaane.senlocation.web.dtos.responses.Response;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ public class FileController {
   private final IFile iFile;
 
   @PostMapping(value = "/upload", consumes = {"multipart/form-data"})
+  @Operation(summary = "Charger une image")
   public ResponseEntity<Response<Object>> uploadImage(@RequestParam("files") List<MultipartFile> files,  long id, String type) {
      return ResponseEntity.ok(Response.ok().setPayload(iFile.uploadFile(files,id, type)));
   }

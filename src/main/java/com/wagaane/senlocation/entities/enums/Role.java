@@ -1,8 +1,6 @@
-package com.wagaane.senlocation.entities;
+package com.wagaane.senlocation.entities.enums;
 
 import lombok.RequiredArgsConstructor;
-
-import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor

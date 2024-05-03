@@ -7,5 +7,5 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface IFile {
-  public ResponseEntity<Response<Object>> uploadFile(List<MultipartFile> files, long id, String type);
+  public Response<Object> uploadFile(List<MultipartFile> files, long id, String type);
 }

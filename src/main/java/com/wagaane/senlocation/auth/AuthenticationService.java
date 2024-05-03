@@ -2,6 +2,7 @@ package com.wagaane.senlocation.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wagaane.senlocation.entities.Utilisateur;
+import com.wagaane.senlocation.repositories.StatutUtilisateurRepository;
 import com.wagaane.senlocation.repositories.UtilisateurRepository;
 import com.wagaane.senlocation.security.config.JwtService;
 import com.wagaane.senlocation.entities.Compte;
@@ -31,6 +32,7 @@ public class AuthenticationService {
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
   private  final UtilisateurRepository utilisateurRepository;
+  private final StatutUtilisateurRepository statutUtilisateurRepository;
 
   /**
    * inscription
@@ -48,13 +50,17 @@ public class AuthenticationService {
         .build();
    compteRepository.save(compte);
 
-    // register user 
+    // inscription utilisateur
     var utilisateur = Utilisateur.builder()
             .compte(compte)
             .nom(request.getNom())
             .prenom(request.getPrenom())
             .telephone(request.getTelephone())
-            .adresse(request.getAdresse()).build();
+            .adresse(request.getAdresse())
+            .email(request.getEmail())
+            .statutUtilisateur(statutUtilisateurRepository.findByCode("ACTIF").get())
+            .build();
+
     utilisateurRepository.save(utilisateur);
 
     return Response.ok().setMessage("Inscription reussie avec succes");
